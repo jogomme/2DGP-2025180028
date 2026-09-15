@@ -2,6 +2,7 @@
 
 
 from pico2d import *
+import math
 
 # open_canvas 로 인해 800x600짜리 캔버스가 열린다.
 open_canvas(800, 600)
@@ -13,32 +14,32 @@ character = load_image('character.png')
 # 게임이 실행 중인지 알려주는 변수
 is_game_on = True
 
-Points = [200,100]
+radius = 200
+wide = 800
+height = 600
 
+Points = [wide / 2, height / 2, radius]
 character.draw(Points[0], Points[1])
+
+angle = 0
 
 
 while is_game_on :
     # 백지 상태로 만들기
     clear_canvas()
     
-    # 사각형의 경로 만들기
-    draw_rectangle(200,100,600,500)
+    # 원 경로 만들기
+    draw_circle(wide / 2, height / 2, radius)
     
     # 조건문
-    if Points[0] < 600 and Points[1] <= 100:
-        Points[0] += 2
-    elif Points[0] == 600 and Points[1] < 500 :
-        Points[1] += 2
-    elif Points[0] > 200 and Points[1] == 500 :
-        Points[0] -= 2
-    elif Points[0] == 200 and Points[1] > 100 :
-        Points[1] -= 2
-    
-    character.draw(Points[0], Points[1])
-    
-    
+    x = Points[0] + radius * math.cos(angle)
+    y = Points[1] + radius * math.sin(angle)
+    character.draw(x, y)
+
     update_canvas()
+    
+    angle += 0.01
+    
     delay(0.01)
     
     events = get_events()
