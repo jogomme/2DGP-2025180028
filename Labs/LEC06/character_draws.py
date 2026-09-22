@@ -4,6 +4,8 @@ from pico2d import *
 
 open_canvas(800,600)
 
+charcter = load_image('character.png')
+
 def move_circle() :
     print(f"circle")
     pass
