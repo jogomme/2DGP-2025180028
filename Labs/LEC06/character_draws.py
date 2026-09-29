@@ -38,9 +38,11 @@ def move_rectangle(x, y) :
 
     ## draw_rectangle(200, 100, 600, 500, 0)
 
-    if x < 600:
-        x += 2
-    
+    if x < 600 and y <= 101:
+        x += 1
+    elif x <= 601 and y < 500 :
+        y += 1
+        
     character.draw(x, y)
     
     update_canvas()
