@@ -2,7 +2,10 @@
 
 from pico2d import *
 
-open_canvas(800,600)
+wide = 800
+height = 600
+
+open_canvas(wide,height)
 
 character = load_image('character.png')
 
