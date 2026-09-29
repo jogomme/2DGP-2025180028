@@ -88,14 +88,13 @@ def move_triangle(x, y, direction):
 
     clear_canvas()
 
-    draw_line(TrianglePoint[0][0], TrianglePoint[0][1],
-              TrianglePoint[1][0], TrianglePoint[1][1])
+    if direction == 0 :
+        x += 1
+        if x >= 600:
+            x = 600
+            direction = 1
 
-    draw_line(TrianglePoint[1][0], TrianglePoint[1][1],
-              TrianglePoint[2][0], TrianglePoint[2][1])
-
-    draw_line(TrianglePoint[2][0], TrianglePoint[2][1],
-              TrianglePoint[0][0], TrianglePoint[0][1])
+    character.draw(x,y)
 
     update_canvas()
 
