@@ -112,7 +112,8 @@ def move_triangle(x, y, direction):
             
     elif direction == 3 :
         x += 1
-        
+        if x >= wide / 2 :
+            pass
             
     
 
