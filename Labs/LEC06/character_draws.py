@@ -15,6 +15,8 @@ angle = -math.pi / 2
 
 Points = [wide / 2, height / 2, radius]
 
+
+
 def move_circle(angle, radius) :
     print(f"circle")
     
@@ -74,14 +76,30 @@ def move_rectangle(x, y, direction) :
     
     return x, y, direction
 
-def move_triangle() :
+def move_triangle(x, y, direction):
     print("triangle")
-    
+
+    TrianglePoint = [[wide / 2, 500],
+                 [200, 100],
+                 [600, 100]]
+    # wide / 2, 500
+    # 200, 100
+    # 600, 100
+
     clear_canvas()
 
+    draw_line(TrianglePoint[0][0], TrianglePoint[0][1],
+              TrianglePoint[1][0], TrianglePoint[1][1])
+
+    draw_line(TrianglePoint[1][0], TrianglePoint[1][1],
+              TrianglePoint[2][0], TrianglePoint[2][1])
+
+    draw_line(TrianglePoint[2][0], TrianglePoint[2][1],
+              TrianglePoint[0][0], TrianglePoint[0][1])
+
     update_canvas()
-    
-    pass
+
+    return x, y, direction
 
 while True :
     while angle <= 3 * math.pi / 2:
@@ -91,7 +109,9 @@ while True :
     while dir < 5 :
         x, y, dir = move_rectangle(x, y, dir)
     delay(0.1)
-    move_triangle()
+    dir = 0
+    while dir < 4:
+        x, y, dir = move_triangle(x, y, dir)
     delay(2)
     angle = -math.pi / 2
 
