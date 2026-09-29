@@ -38,11 +38,14 @@ def move_rectangle(x, y) :
 
     ## draw_rectangle(200, 100, 600, 500, 0)
 
+    if x < 600:
+        x += 2
+    
     character.draw(x, y)
     
     update_canvas()
     
-    pass
+    return x, y
 
 def move_triangle() :
     print("triangle")
@@ -56,8 +59,9 @@ def move_triangle() :
 while True :
     while angle <= 3 * math.pi / 2:
         angle, x, y = move_circle(angle= angle, radius= radius)
-    delay(2)
-    move_rectangle(x, y)
+    delay(0.1)
+    while True :
+        x, y = move_rectangle(x, y)
     delay(2)
     move_triangle()
     delay(2)
