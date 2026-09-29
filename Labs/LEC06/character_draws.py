@@ -16,9 +16,18 @@ Points = [wide / 2, height / 2, radius]
 
 def move_circle() :
     print(f"circle")
+    
     clear_canvas()
-    character.draw(400,300)
+    
+    x = Points[0] + radius * math.cos(angle)
+    y = Points[1] + radius * math.sin(angle)
+    
+    character.draw(x, y)
+    
     update_canvas()
+    
+    angle += 0.01
+    
     pass
 
 def move_rectangle() :
