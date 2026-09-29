@@ -88,9 +88,9 @@ while True :
         angle, x, y = move_circle(angle= angle, radius= radius)
     delay(0.1)
     dir = 0
-    while True :
+    while dir < 5 :
         x, y, dir = move_rectangle(x, y, dir)
-    delay(2)
+    delay(0.1)
     move_triangle()
     delay(2)
     angle = -math.pi / 2
