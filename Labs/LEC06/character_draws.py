@@ -102,6 +102,14 @@ def move_triangle(x, y, direction):
             y = 500
             direction = 2
             
+    elif direction == 2 :
+        y -= 1
+        x -= 0.5
+        if x <= 200 and y <= 100 :
+            x = 200
+            y = 100
+            direction = 3
+            
     
 
     character.draw(x,y)
