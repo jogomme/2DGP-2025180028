@@ -29,15 +29,17 @@ def move_circle(angle, radius) :
     
     angle += 0.01
     
-    return angle
+    return angle, x, y
 
-def move_rectangle() :
+def move_rectangle(x, y) :
     print("rectangle")
     
     clear_canvas()
 
-    draw_rectangle(200, 100, 600, 500, 0)
+    ## draw_rectangle(200, 100, 600, 500, 0)
 
+    character.draw(x, y)
+    
     update_canvas()
     
     pass
@@ -53,9 +55,9 @@ def move_triangle() :
 
 while True :
     while angle <= 3 * math.pi / 2:
-        angle = move_circle(angle= angle, radius= radius)
+        angle, x, y = move_circle(angle= angle, radius= radius)
     delay(2)
-    move_rectangle()
+    move_rectangle(x, y)
     delay(2)
     move_triangle()
     delay(2)
