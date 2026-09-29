@@ -9,6 +9,11 @@ open_canvas(wide,height)
 
 character = load_image('character.png')
 
+radius = 200
+angle = 0
+
+Points = [wide / 2, height / 2, radius]
+
 def move_circle() :
     print(f"circle")
     clear_canvas()
