@@ -14,7 +14,7 @@ angle = 0
 
 Points = [wide / 2, height / 2, radius]
 
-def move_circle() :
+def move_circle(angle, radius) :
     print(f"circle")
     
     clear_canvas()
