@@ -31,25 +31,42 @@ def move_circle(angle, radius) :
     
     return angle, x, y
 
-def move_rectangle(x, y) :
+def move_rectangle(x, y, direction) :
     print("rectangle")
     
     clear_canvas()
 
     ## draw_rectangle(200, 100, 600, 500, 0)
 
-    if x < 600 and y <= 101:
+    if direction == 0:
         x += 1
-    elif x <= 601 and y < 500 :
+        if x >= 600:
+            x = 600
+            direction = 1
+
+    elif direction == 1:
         y += 1
-    elif x > 200 and y <= 501 :
+        if y >= 500:
+            y = 500
+            direction = 2
+
+    elif direction == 2:
         x -= 1
-        
+        if x <= 200:
+            x = 200
+            direction = 3
+
+    elif direction == 3:
+        y -= 1
+        if y <= 100:
+            y = 100
+            direction = 4
+            
     character.draw(x, y)
     
     update_canvas()
     
-    return x, y
+    return x, y, direction
 
 def move_triangle() :
     print("triangle")
@@ -64,8 +81,9 @@ while True :
     while angle <= 3 * math.pi / 2:
         angle, x, y = move_circle(angle= angle, radius= radius)
     delay(0.1)
+    dir = 0
     while True :
-        x, y = move_rectangle(x, y)
+        x, y, dir = move_rectangle(x, y, dir)
     delay(2)
     move_triangle()
     delay(2)
