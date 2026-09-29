@@ -11,7 +11,7 @@ open_canvas(wide,height)
 character = load_image('character.png')
 
 radius = 200
-angle = 0
+angle = -math.pi / 2
 
 Points = [wide / 2, height / 2, radius]
 
@@ -40,11 +40,11 @@ def move_triangle() :
     pass
 
 while True :
-    while angle <= 2 * math.pi :
+    while angle <= 3 * math.pi / 2:
         angle = move_circle(angle= angle, radius= radius)
     delay(2)
     move_rectangle()
     move_triangle()
-    pass
+    angle = -math.pi / 2
 
 close_canvas()
