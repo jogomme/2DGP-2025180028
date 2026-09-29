@@ -42,6 +42,8 @@ def move_rectangle(x, y) :
         x += 1
     elif x <= 601 and y < 500 :
         y += 1
+    elif x > 200 and y <= 501 :
+        x -= 1
         
     character.draw(x, y)
     
