@@ -122,6 +122,7 @@ def move_triangle(x, y, direction):
     return x, y, direction
 
 while True :
+    angle = -math.pi / 2
     while angle <= 3 * math.pi / 2:
         angle, x, y = move_circle(angle= angle, radius= radius)
     delay(0.1)
@@ -132,7 +133,6 @@ while True :
     dir = 0
     while dir < 4:
         x, y, dir = move_triangle(x, y, dir)
-    delay(2)
-    angle = -math.pi / 2
+    delay(0.1)
 
 close_canvas()
