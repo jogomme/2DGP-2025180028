@@ -40,7 +40,9 @@ def move_triangle() :
     pass
 
 while True :
-    angle = move_circle(angle= angle, radius= radius)
+    while angle <= 2 * math.pi :
+        angle = move_circle(angle= angle, radius= radius)
+    delay(2)
     move_rectangle()
     move_triangle()
     pass
