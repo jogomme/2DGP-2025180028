@@ -110,6 +110,10 @@ def move_triangle(x, y, direction):
             y = 100
             direction = 3
             
+    elif direction == 3 :
+        x += 1
+        
+            
     
 
     character.draw(x,y)
