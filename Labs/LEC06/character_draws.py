@@ -93,6 +93,16 @@ def move_triangle(x, y, direction):
         if x >= 600:
             x = 600
             direction = 1
+    
+    elif direction == 1 :
+        y += 1
+        x -= 0.5
+        if x <= wide / 2 and y >= 500 :
+            x = wide / 2
+            y = 500
+            direction = 2
+            
+    
 
     character.draw(x,y)
 
