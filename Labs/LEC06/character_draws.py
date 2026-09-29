@@ -15,8 +15,6 @@ angle = -math.pi / 2
 
 Points = [wide / 2, height / 2, radius]
 
-
-
 def move_circle(angle, radius) :
     print(f"circle")
     
@@ -79,9 +77,6 @@ def move_rectangle(x, y, direction) :
 def move_triangle(x, y, direction):
     print("triangle")
 
-    TrianglePoint = [[wide / 2, 500],
-                 [200, 100],
-                 [600, 100]]
     # wide / 2, 500
     # 200, 100
     # 600, 100
