@@ -62,6 +62,12 @@ def move_rectangle(x, y, direction) :
             y = 100
             direction = 4
             
+    elif direction == 4 :
+        x += 1
+        if x >= 400 :
+            x = 400
+            direction = 5
+            
     character.draw(x, y)
     
     update_canvas()
