@@ -90,6 +90,28 @@ def roll() :
 def rolling() :
     return play_animation_frame("rolling")
 
+def get_requested_animation():
+    if SDLK_SPACE in pressed_inputs:
+        return "jump"
+    if left_clicked or left_mouse_pressed:
+        return "attack"
+    if SDLK_a in pressed_inputs or SDLK_d in pressed_inputs:
+        return "roll"
+    if SDLK_w in pressed_inputs:
+        return "run"
+    if SDLK_s in pressed_inputs:
+        return "rolling"
+    return None
+
+animation_functions = {
+    "normal": nomal,
+    "run": run,
+    "jump": jump,
+    "attack": attack,
+    "roll": roll,
+    "rolling": rolling,
+}
+
 running = True
 pressed_inputs = set()
 pressed_this_frame = set()
@@ -122,18 +144,8 @@ while running :
             if event.button == SDL_BUTTON_LEFT:
                 left_mouse_pressed = False
 
-    if SDLK_SPACE in pressed_inputs:
-        jump()
-    elif left_clicked or left_mouse_pressed:
-        attack()
-    elif SDLK_a in pressed_inputs or SDLK_d in pressed_inputs:
-        roll()
-    elif SDLK_w in pressed_inputs:
-        run()
-    elif SDLK_s in pressed_inputs:
-        rolling()
-    else:
-        nomal()
+    requested_animation = get_requested_animation()
+    animation_functions[requested_animation or "normal"]()
                 
     update_canvas()
     delay(0.05)
