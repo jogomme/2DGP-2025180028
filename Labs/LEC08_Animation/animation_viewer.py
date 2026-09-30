@@ -53,6 +53,7 @@ animations = {
     "roll": roll_frames,
     "rolling": rolling_frames,
 }
+animation_order = ["normal", "run", "jump", "attack", "roll", "rolling"]
 animation_indices = {name: 0 for name in animations}
 
 def draw_animation_frame(animation_name, frame_index, destination_height=100):
