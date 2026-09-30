@@ -5,7 +5,7 @@ open_canvas()
 sonic = load_image("sonic-sprite.png")
 background = load_image("grass.png")
 
-frame_nomal = 9
+frame_nomal = 10
 
 frame_jump_up = 6
 frame_jump_down = 2
@@ -15,8 +15,15 @@ frame_attack = 6
 frame_roll = 9
 frame_rolling = 6
 
+width = 40
+height = 40
+
+x = 0
+
 def nomal() :
-    pass
+    frame = 0
+    for i in range(0, frame_nomal ):
+        pass
 
 def jump() :
     pass
