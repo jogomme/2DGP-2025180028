@@ -78,7 +78,7 @@ def run():
     return play_animation_frame("run")
 
 def jump() :
-    pass
+    return play_animation_frame("jump")
 
 def attack() :
     pass
