@@ -127,6 +127,10 @@ while running :
         attack()
     elif SDLK_a in pressed_inputs or SDLK_d in pressed_inputs:
         roll()
+    elif SDLK_w in pressed_inputs:
+        run()
+    elif SDLK_s in pressed_inputs:
+        rolling()
     else:
         nomal()
                 
