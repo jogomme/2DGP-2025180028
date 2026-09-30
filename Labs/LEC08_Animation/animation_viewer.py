@@ -3,6 +3,7 @@ from pico2d import *
 open_canvas()
 
 sonic = load_image("sonic-sprite.png")
+background = load_image("grass.png")
 
 frame_nomal = 9
 
@@ -39,6 +40,8 @@ while running :
     pressed_this_frame.clear()
     left_clicked = False
 
+    background.draw(400,30)
+    
     for event in get_events():
         if event.type == SDL_QUIT:
             running = False
@@ -57,5 +60,7 @@ while running :
         elif event.type == SDL_MOUSEBUTTONUP:
             if event.button == SDL_BUTTON_LEFT:
                 left_mouse_pressed = False
+                
+    update_canvas()
 
 close_canvas()
