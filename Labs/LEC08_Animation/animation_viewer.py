@@ -60,6 +60,15 @@ while running :
         elif event.type == SDL_MOUSEBUTTONUP:
             if event.button == SDL_BUTTON_LEFT:
                 left_mouse_pressed = False
+
+    if SDLK_SPACE in pressed_inputs:
+        jump()
+    elif left_clicked or left_mouse_pressed:
+        attack()
+    elif SDLK_a in pressed_inputs or SDLK_d in pressed_inputs:
+        roll()
+    else:
+        nomal()
                 
     update_canvas()
 
