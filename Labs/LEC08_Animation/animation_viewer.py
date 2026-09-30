@@ -1,27 +1,17 @@
 from pico2d import *
+import time
 
 open_canvas()
 
 sonic = load_image("sonic-sprite.png")
 background = load_image("grass.png")
 
-frame_jump_up = 6
-frame_jump_down = 2
-
-frame_attack = 6
-
-frame_roll = 9
-frame_rolling = 6
-
-width = 40
-height = 40
 normal_frames = [
     (1, 39, 29, 39), (31, 40, 26, 38), (58, 39, 28, 39),
     (86, 40, 30, 38), (118, 40, 30, 38), (150, 40, 30, 38),
     (182, 40, 29, 38), (211, 39, 29, 38), (240, 39, 29, 38),
     (270, 45, 24, 32), (302, 51, 29, 26)
 ]
-frame_nomal = len(normal_frames)
 run_frames = [
     (8, 80, 26, 37), (37, 80, 27, 37), (65, 80, 31, 38),
     (97, 80, 37, 37), (135, 80, 32, 35), (170, 79, 32, 38),
@@ -56,17 +46,17 @@ animations = {
 animation_order = ["normal", "run", "jump", "attack", "roll", "rolling"]
 animation_indices = {name: 0 for name in animations}
 
-def draw_animation_frame(animation_name, frame_index, destination_height=100):
+def draw_animation_frame(animation_name, frame_index, destination_height=300):
     frame_left, frame_top, frame_width, frame_height = animations[animation_name][frame_index]
     destination_width = frame_width * destination_height // frame_height
     sonic.clip_draw(
         frame_left, sonic.h - frame_top - frame_height,
         frame_width, frame_height,
-        400, 120,
+        400, 300,
         destination_width, destination_height
     )
 
-def play_animation_frame(animation_name, destination_height=100):
+def play_animation_frame(animation_name, destination_height=300):
     frame_index = animation_indices[animation_name]
     draw_animation_frame(animation_name, frame_index, destination_height)
     animation_indices[animation_name] = (frame_index + 1) % len(animations[animation_name])
@@ -112,6 +102,11 @@ animation_functions = {
     "rolling": rolling,
 }
 
+repeats_per_animation = 5
+pause_duration = 1.0
+animation_order_index = 0
+completed_repeats = 0
+pause_until = None
 running = True
 pressed_inputs = set()
 pressed_this_frame = set()
@@ -145,7 +140,24 @@ while running :
                 left_mouse_pressed = False
 
     requested_animation = get_requested_animation()
-    animation_functions[requested_animation or "normal"]()
+    if requested_animation is not None:
+        animation_functions[requested_animation]()
+    elif pause_until is not None:
+        if time.monotonic() < pause_until:
+            animation_name = animation_order[animation_order_index]
+            draw_animation_frame(animation_name, len(animations[animation_name]) - 1)
+        else:
+            pause_until = None
+            animation_order_index = (animation_order_index + 1) % len(animation_order)
+            completed_repeats = 0
+            animation_name = animation_order[animation_order_index]
+            animation_indices[animation_name] = 0
+    else:
+        animation_name = animation_order[animation_order_index]
+        if animation_functions[animation_name]():
+            completed_repeats += 1
+            if completed_repeats >= repeats_per_animation:
+                pause_until = time.monotonic() + pause_duration
                 
     update_canvas()
     delay(0.05)
