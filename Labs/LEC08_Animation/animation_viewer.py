@@ -55,9 +55,6 @@ animations = {
 }
 animation_indices = {name: 0 for name in animations}
 
-x = 0
-normal_frame = 0
-
 def draw_animation_frame(animation_name, frame_index, destination_height=100):
     frame_left, frame_top, frame_width, frame_height = animations[animation_name][frame_index]
     destination_width = frame_width * destination_height // frame_height
@@ -68,10 +65,14 @@ def draw_animation_frame(animation_name, frame_index, destination_height=100):
         destination_width, destination_height
     )
 
+def play_animation_frame(animation_name, destination_height=100):
+    frame_index = animation_indices[animation_name]
+    draw_animation_frame(animation_name, frame_index, destination_height)
+    animation_indices[animation_name] = (frame_index + 1) % len(animations[animation_name])
+    return animation_indices[animation_name] == 0
+
 def nomal() :
-    global normal_frame
-    draw_animation_frame("normal", normal_frame)
-    normal_frame = (normal_frame + 1) % frame_nomal
+    return play_animation_frame("normal")
 
 def jump() :
     pass
