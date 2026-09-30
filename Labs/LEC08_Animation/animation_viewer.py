@@ -70,13 +70,7 @@ def draw_animation_frame(animation_name, frame_index, destination_height=100):
 
 def nomal() :
     global normal_frame
-    frame_left, frame_top, frame_width, frame_height = normal_frames[normal_frame]
-    sonic.clip_draw(
-        frame_left, sonic.h - frame_top - frame_height,
-        frame_width, frame_height,
-        400, 120,
-        frame_width * 100 // frame_height, 100
-    )
+    draw_animation_frame("normal", normal_frame)
     normal_frame = (normal_frame + 1) % frame_nomal
 
 def jump() :
