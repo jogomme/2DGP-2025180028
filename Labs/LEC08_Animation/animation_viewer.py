@@ -45,6 +45,14 @@ rolling_frames = [
     (1, 206, 30, 27), (36, 206, 29, 27), (70, 206, 29, 27),
     (105, 206, 29, 27), (139, 206, 29, 27), (174, 206, 29, 27)
 ]
+animations = {
+    "normal": normal_frames,
+    "run": run_frames,
+    "jump": jump_frames,
+    "attack": attack_frames,
+    "roll": roll_frames,
+    "rolling": rolling_frames,
+}
 
 x = 0
 normal_frame = 0
