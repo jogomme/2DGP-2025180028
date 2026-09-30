@@ -17,13 +17,24 @@ frame_rolling = 6
 
 width = 40
 height = 40
+normal_frames = [
+    (1, 29), (31, 26), (58, 28), (86, 30), (118, 30),
+    (150, 30), (182, 29), (211, 29), (240, 29), (270, 24)
+]
 
 x = 0
+normal_frame = 0
 
 def nomal() :
-    frame = 0
-    for i in range(0, frame_nomal ):
-        pass
+    global normal_frame
+    frame_left, frame_width = normal_frames[normal_frame]
+    sonic.clip_draw(
+        frame_left, sonic.h - 80,
+        frame_width, height,
+        400, 120,
+        frame_width * 100 // height, 100
+    )
+    normal_frame = (normal_frame + 1) % frame_nomal
 
 def jump() :
     pass
@@ -47,6 +58,7 @@ while running :
     pressed_this_frame.clear()
     left_clicked = False
 
+    clear_canvas()
     background.draw(400,30)
     
     for event in get_events():
@@ -78,5 +90,6 @@ while running :
         nomal()
                 
     update_canvas()
+    delay(0.05)
 
 close_canvas()
