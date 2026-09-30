@@ -53,6 +53,7 @@ animations = {
     "roll": roll_frames,
     "rolling": rolling_frames,
 }
+animation_indices = {name: 0 for name in animations}
 
 x = 0
 normal_frame = 0
