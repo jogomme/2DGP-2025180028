@@ -5,8 +5,6 @@ open_canvas()
 sonic = load_image("sonic-sprite.png")
 background = load_image("grass.png")
 
-frame_nomal = 10
-
 frame_jump_up = 6
 frame_jump_down = 2
 
@@ -18,21 +16,24 @@ frame_rolling = 6
 width = 40
 height = 40
 normal_frames = [
-    (1, 29), (31, 26), (58, 28), (86, 30), (118, 30),
-    (150, 30), (182, 29), (211, 29), (240, 29), (270, 24)
+    (1, 39, 29, 39), (31, 40, 26, 38), (58, 39, 28, 39),
+    (86, 40, 30, 38), (118, 40, 30, 38), (150, 40, 30, 38),
+    (182, 40, 29, 38), (211, 39, 29, 38), (240, 39, 29, 38),
+    (270, 45, 24, 32), (302, 51, 29, 26)
 ]
+frame_nomal = len(normal_frames)
 
 x = 0
 normal_frame = 0
 
 def nomal() :
     global normal_frame
-    frame_left, frame_width = normal_frames[normal_frame]
+    frame_left, frame_top, frame_width, frame_height = normal_frames[normal_frame]
     sonic.clip_draw(
-        frame_left, sonic.h - 80,
-        frame_width, height,
+        frame_left, sonic.h - frame_top - frame_height,
+        frame_width, frame_height,
         400, 120,
-        frame_width * 100 // height, 100
+        frame_width * 100 // frame_height, 100
     )
     normal_frame = (normal_frame + 1) % frame_nomal
 
