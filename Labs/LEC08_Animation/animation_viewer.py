@@ -87,7 +87,7 @@ def roll() :
     return play_animation_frame("roll")
 
 def rolling() :
-    pass
+    return play_animation_frame("rolling")
 
 running = True
 pressed_inputs = set()
