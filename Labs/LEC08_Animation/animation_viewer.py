@@ -81,7 +81,7 @@ def jump() :
     return play_animation_frame("jump")
 
 def attack() :
-    pass
+    return play_animation_frame("attack")
 
 def roll() :
     pass
