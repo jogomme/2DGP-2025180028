@@ -74,6 +74,9 @@ def play_animation_frame(animation_name, destination_height=100):
 def nomal() :
     return play_animation_frame("normal")
 
+def run():
+    return play_animation_frame("run")
+
 def jump() :
     pass
 
