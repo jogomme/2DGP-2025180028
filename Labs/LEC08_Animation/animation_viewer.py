@@ -57,6 +57,16 @@ animations = {
 x = 0
 normal_frame = 0
 
+def draw_animation_frame(animation_name, frame_index, destination_height=100):
+    frame_left, frame_top, frame_width, frame_height = animations[animation_name][frame_index]
+    destination_width = frame_width * destination_height // frame_height
+    sonic.clip_draw(
+        frame_left, sonic.h - frame_top - frame_height,
+        frame_width, frame_height,
+        400, 120,
+        destination_width, destination_height
+    )
+
 def nomal() :
     global normal_frame
     frame_left, frame_top, frame_width, frame_height = normal_frames[normal_frame]
