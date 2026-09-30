@@ -37,7 +37,7 @@ def right_walk() :
 
 def left_walk() :
     character.clip_composite_draw(
-                frame * 100, 700, #left, bottom
+                frame * 100, 300, #left, bottom
                 100, 100, # width, height
                 0, 'h',
                 800 - x, 90, # destination x, y
