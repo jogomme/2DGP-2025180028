@@ -6,7 +6,12 @@ from pico2d import *
 WINDOW_WIDTH = 960
 WINDOW_HEIGHT = 720
 DISPLAY_SCALE = 8
-FIRST_FRAME = (1, 39, 29, 39)
+NORMAL_FRAMES = (
+    (1, 39, 29, 39), (31, 40, 26, 38), (58, 39, 28, 39),
+    (86, 40, 30, 38), (118, 40, 30, 38), (150, 40, 30, 38),
+    (182, 40, 29, 38), (211, 39, 29, 38), (240, 39, 29, 38),
+    (270, 45, 24, 32), (302, 51, 29, 26),
+)
 
 
 def get_sprite_path():
@@ -25,6 +30,10 @@ def draw_frame(sprite_sheet, frame, scale=1):
         width * scale,
         height * scale,
     )
+
+
+def get_animation_frame(frames, frame_index):
+    return frames[frame_index]
 
 
 def main():
@@ -48,7 +57,8 @@ def main():
                     running = False
 
             clear_canvas()
-            draw_frame(sprite_sheet, FIRST_FRAME, DISPLAY_SCALE)
+            frame = get_animation_frame(NORMAL_FRAMES, 0)
+            draw_frame(sprite_sheet, frame, DISPLAY_SCALE)
             update_canvas()
             delay(0.01)
     finally:
