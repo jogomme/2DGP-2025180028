@@ -12,6 +12,7 @@ DISPLAY_SCALE = 8
 FRAME_DURATION = 0.08
 REPEATS_PER_ACTION = 5
 PAUSE_DURATION = 1.0
+MOVE_SPEED = 240
 NORMAL_FRAMES = (
     (1, 39, 29, 39),
     (31, 40, 26, 38),
@@ -137,23 +138,50 @@ ANIMATION_ORDER = (
     "run_alt",
     "reaction",
 )
+CHARACTER_HALF_WIDTH = (
+    max(frame[2] for frames in ANIMATIONS.values() for frame in frames)
+    * DISPLAY_SCALE
+    // 2
+)
 
 
 def get_sprite_path():
     return Path(__file__).resolve().with_name("sonic-sprite.png")
 
 
-def draw_frame(sprite_sheet, frame, scale=1):
+def draw_frame(
+    sprite_sheet,
+    frame,
+    scale=1,
+    x=WINDOW_WIDTH // 2,
+    y=WINDOW_HEIGHT // 2,
+    flip_horizontal=False,
+):
     left, top, width, height = frame
-    sprite_sheet.clip_draw(
+    sprite_sheet.clip_composite_draw(
         left,
         sprite_sheet.h - top - height,
         width,
         height,
-        WINDOW_WIDTH // 2,
-        WINDOW_HEIGHT // 2,
+        0,
+        "h" if flip_horizontal else "",
+        x,
+        y,
         width * scale,
         height * scale,
+    )
+
+
+def get_move_direction(pressed_keys):
+    return int(SDLK_RIGHT in pressed_keys) - int(SDLK_LEFT in pressed_keys)
+
+
+def move_character(position_x, direction, elapsed):
+    left_edge = CHARACTER_HALF_WIDTH
+    right_edge = WINDOW_WIDTH - CHARACTER_HALF_WIDTH
+    return min(
+        right_edge,
+        max(left_edge, position_x + direction * MOVE_SPEED * elapsed),
     )
 
 
@@ -221,15 +249,42 @@ def main():
 
         running = True
         player = AnimationPlayer()
-        next_frame_at = time.monotonic() + FRAME_DURATION
+        now = time.monotonic()
+        next_frame_at = now + FRAME_DURATION
+        next_move_frame_at = next_frame_at
+        previous_update_at = now
+        movement_keys = set()
+        move_frame_index = 0
+        position_x = WINDOW_WIDTH // 2
+        facing_right = True
         while running:
             for event in get_events():
                 if event.type == SDL_QUIT:
                     running = False
                 elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
                     running = False
+                elif event.type == SDL_KEYDOWN and event.key in (
+                    SDLK_LEFT,
+                    SDLK_RIGHT,
+                ):
+                    movement_keys.add(event.key)
+                elif event.type == SDL_KEYUP:
+                    movement_keys.discard(event.key)
 
             now = time.monotonic()
+            elapsed = now - previous_update_at
+            previous_update_at = now
+            move_direction = get_move_direction(movement_keys)
+            if move_direction:
+                position_x = move_character(position_x, move_direction, elapsed)
+                facing_right = move_direction > 0
+                while now >= next_move_frame_at:
+                    move_frame_index = (move_frame_index + 1) % len(RUN_FRAMES)
+                    next_move_frame_at += FRAME_DURATION
+            else:
+                move_frame_index = 0
+                next_move_frame_at = now + FRAME_DURATION
+
             while now >= next_frame_at:
                 player.advance_frame(next_frame_at)
                 if player.phase == "paused":
@@ -238,7 +293,19 @@ def main():
                     next_frame_at += FRAME_DURATION
 
             clear_canvas()
-            draw_frame(sprite_sheet, player.current_frame, DISPLAY_SCALE)
+            frame = (
+                RUN_FRAMES[move_frame_index]
+                if move_direction
+                else player.current_frame
+            )
+            draw_frame(
+                sprite_sheet,
+                frame,
+                DISPLAY_SCALE,
+                position_x,
+                WINDOW_HEIGHT // 2,
+                not facing_right,
+            )
             update_canvas()
             delay(0.01)
     finally:
