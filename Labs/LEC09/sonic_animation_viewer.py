@@ -18,6 +18,11 @@ def main():
 
     open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     try:
+        try:
+            sprite_sheet = load_image(str(sprite_path))
+        except IOError as error:
+            raise RuntimeError(f"Unable to load sprite sheet: {sprite_path}") from error
+
         running = True
         while running:
             for event in get_events():
