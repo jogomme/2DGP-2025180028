@@ -147,6 +147,24 @@ def get_animation_frame(frames, frame_index):
     return frames[frame_index]
 
 
+class AnimationPlayer:
+    def __init__(self):
+        self.action_index = 0
+        self.frame_index = 0
+
+    @property
+    def action_name(self):
+        return ANIMATION_ORDER[self.action_index]
+
+    @property
+    def current_frame(self):
+        return get_animation_frame(ANIMATIONS[self.action_name], self.frame_index)
+
+    def advance_frame(self):
+        frames = ANIMATIONS[self.action_name]
+        self.frame_index = (self.frame_index + 1) % len(frames)
+
+
 def main():
     sprite_path = get_sprite_path()
     if not sprite_path.is_file():
@@ -160,7 +178,7 @@ def main():
             raise RuntimeError(f"Unable to load sprite sheet: {sprite_path}") from error
 
         running = True
-        frame_index = 0
+        player = AnimationPlayer()
         next_frame_at = time.monotonic() + FRAME_DURATION
         while running:
             for event in get_events():
@@ -171,12 +189,11 @@ def main():
 
             now = time.monotonic()
             while now >= next_frame_at:
-                frame_index = (frame_index + 1) % len(NORMAL_FRAMES)
+                player.advance_frame()
                 next_frame_at += FRAME_DURATION
 
             clear_canvas()
-            frame = get_animation_frame(NORMAL_FRAMES, frame_index)
-            draw_frame(sprite_sheet, frame, DISPLAY_SCALE)
+            draw_frame(sprite_sheet, player.current_frame, DISPLAY_SCALE)
             update_canvas()
             delay(0.01)
     finally:
