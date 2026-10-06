@@ -168,7 +168,7 @@ class AnimationPlayer:
     def advance_frame(self, now):
         if self.phase == "paused":
             if now >= self.pause_until:
-                self.phase = "complete"
+                self.advance_action()
             return False
         if self.phase != "playing":
             return False
@@ -186,6 +186,17 @@ class AnimationPlayer:
 
         self.frame_index += 1
         return False
+
+    def advance_action(self):
+        if self.action_index + 1 == len(ANIMATION_ORDER):
+            self.phase = "complete"
+            return
+
+        self.action_index += 1
+        self.frame_index = 0
+        self.completed_repeats = 0
+        self.pause_until = None
+        self.phase = "playing"
 
 
 def main():
