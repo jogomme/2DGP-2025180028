@@ -188,11 +188,7 @@ class AnimationPlayer:
         return False
 
     def advance_action(self):
-        if self.action_index + 1 == len(ANIMATION_ORDER):
-            self.phase = "complete"
-            return
-
-        self.action_index += 1
+        self.action_index = (self.action_index + 1) % len(ANIMATION_ORDER)
         self.frame_index = 0
         self.completed_repeats = 0
         self.pause_until = None
