@@ -7,7 +7,15 @@ WINDOW_WIDTH = 960
 WINDOW_HEIGHT = 720
 
 
+def get_sprite_path():
+    return Path(__file__).resolve().with_name("sonic-sprite.png")
+
+
 def main():
+    sprite_path = get_sprite_path()
+    if not sprite_path.is_file():
+        raise FileNotFoundError(f"Sprite sheet not found: {sprite_path}")
+
     open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     try:
         running = True
