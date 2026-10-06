@@ -5,6 +5,7 @@ from pico2d import *
 
 WINDOW_WIDTH = 960
 WINDOW_HEIGHT = 720
+DISPLAY_SCALE = 8
 FIRST_FRAME = (1, 39, 29, 39)
 
 
@@ -47,7 +48,7 @@ def main():
                     running = False
 
             clear_canvas()
-            draw_frame(sprite_sheet, FIRST_FRAME)
+            draw_frame(sprite_sheet, FIRST_FRAME, DISPLAY_SCALE)
             update_canvas()
             delay(0.01)
     finally:
