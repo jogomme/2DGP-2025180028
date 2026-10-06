@@ -151,6 +151,7 @@ class AnimationPlayer:
     def __init__(self):
         self.action_index = 0
         self.frame_index = 0
+        self.completed_repeats = 0
 
     @property
     def action_name(self):
@@ -162,7 +163,13 @@ class AnimationPlayer:
 
     def advance_frame(self):
         frames = ANIMATIONS[self.action_name]
-        self.frame_index = (self.frame_index + 1) % len(frames)
+        if self.frame_index + 1 == len(frames):
+            self.frame_index = 0
+            self.completed_repeats += 1
+            return True
+
+        self.frame_index += 1
+        return False
 
 
 def main():
