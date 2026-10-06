@@ -11,6 +11,7 @@ WINDOW_HEIGHT = 720
 DISPLAY_SCALE = 8
 FRAME_DURATION = 0.08
 REPEATS_PER_ACTION = 5
+PAUSE_DURATION = 1.0
 NORMAL_FRAMES = (
     (1, 39, 29, 39),
     (31, 40, 26, 38),
@@ -154,6 +155,7 @@ class AnimationPlayer:
         self.frame_index = 0
         self.completed_repeats = 0
         self.phase = "playing"
+        self.pause_until = None
 
     @property
     def action_name(self):
@@ -163,7 +165,11 @@ class AnimationPlayer:
     def current_frame(self):
         return get_animation_frame(ANIMATIONS[self.action_name], self.frame_index)
 
-    def advance_frame(self):
+    def advance_frame(self, now):
+        if self.phase == "paused":
+            if now >= self.pause_until:
+                self.phase = "complete"
+            return False
         if self.phase != "playing":
             return False
 
@@ -171,7 +177,8 @@ class AnimationPlayer:
         if self.frame_index + 1 == len(frames):
             self.completed_repeats += 1
             if self.completed_repeats == REPEATS_PER_ACTION:
-                self.phase = "complete"
+                self.phase = "paused"
+                self.pause_until = now + PAUSE_DURATION
                 return True
 
             self.frame_index = 0
@@ -205,8 +212,11 @@ def main():
 
             now = time.monotonic()
             while now >= next_frame_at:
-                player.advance_frame()
-                next_frame_at += FRAME_DURATION
+                player.advance_frame(next_frame_at)
+                if player.phase == "paused":
+                    next_frame_at = player.pause_until
+                else:
+                    next_frame_at += FRAME_DURATION
 
             clear_canvas()
             draw_frame(sprite_sheet, player.current_frame, DISPLAY_SCALE)
