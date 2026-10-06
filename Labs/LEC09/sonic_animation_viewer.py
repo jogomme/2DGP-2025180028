@@ -124,7 +124,19 @@ ANIMATIONS = {
     "run_alt": RUN_ALT_FRAMES,
     "reaction": REACTION_FRAMES,
 }
-ANIMATION_ORDER = tuple(ANIMATIONS)
+ANIMATION_ORDER = (
+    "normal",
+    "run",
+    "jump",
+    "attack",
+    "roll",
+    "rolling",
+    "spin_attack",
+    "turnaround",
+    "impact",
+    "run_alt",
+    "reaction",
+)
 
 
 def get_sprite_path():
@@ -231,6 +243,7 @@ def main():
             delay(0.01)
     finally:
         close_canvas()
+
 
 if __name__ == "__main__":
     main()
