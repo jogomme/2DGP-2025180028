@@ -10,6 +10,7 @@ WINDOW_WIDTH = 960
 WINDOW_HEIGHT = 720
 DISPLAY_SCALE = 8
 FRAME_DURATION = 0.08
+REPEATS_PER_ACTION = 5
 NORMAL_FRAMES = (
     (1, 39, 29, 39),
     (31, 40, 26, 38),
@@ -152,6 +153,7 @@ class AnimationPlayer:
         self.action_index = 0
         self.frame_index = 0
         self.completed_repeats = 0
+        self.phase = "playing"
 
     @property
     def action_name(self):
@@ -162,10 +164,17 @@ class AnimationPlayer:
         return get_animation_frame(ANIMATIONS[self.action_name], self.frame_index)
 
     def advance_frame(self):
+        if self.phase != "playing":
+            return False
+
         frames = ANIMATIONS[self.action_name]
         if self.frame_index + 1 == len(frames):
-            self.frame_index = 0
             self.completed_repeats += 1
+            if self.completed_repeats == REPEATS_PER_ACTION:
+                self.phase = "complete"
+                return True
+
+            self.frame_index = 0
             return True
 
         self.frame_index += 1
