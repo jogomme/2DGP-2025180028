@@ -1,11 +1,15 @@
 """Play the Sonic sprite sheet animations in sequence."""
 
+import time
+from pathlib import Path
+
 from pico2d import *
 
 
 WINDOW_WIDTH = 960
 WINDOW_HEIGHT = 720
 DISPLAY_SCALE = 8
+FRAME_DURATION = 0.08
 NORMAL_FRAMES = (
     (1, 39, 29, 39), (31, 40, 26, 38), (58, 39, 28, 39),
     (86, 40, 30, 38), (118, 40, 30, 38), (150, 40, 30, 38),
@@ -49,6 +53,8 @@ def main():
             raise RuntimeError(f"Unable to load sprite sheet: {sprite_path}") from error
 
         running = True
+        frame_index = 0
+        next_frame_at = time.monotonic() + FRAME_DURATION
         while running:
             for event in get_events():
                 if event.type == SDL_QUIT:
@@ -56,8 +62,13 @@ def main():
                 elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
                     running = False
 
+            now = time.monotonic()
+            while now >= next_frame_at:
+                frame_index = (frame_index + 1) % len(NORMAL_FRAMES)
+                next_frame_at += FRAME_DURATION
+
             clear_canvas()
-            frame = get_animation_frame(NORMAL_FRAMES, 0)
+            frame = get_animation_frame(NORMAL_FRAMES, frame_index)
             draw_frame(sprite_sheet, frame, DISPLAY_SCALE)
             update_canvas()
             delay(0.01)
