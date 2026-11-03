@@ -1,5 +1,7 @@
 from math import pi
 
+import game_world
+from ball import Ball
 from pico2d import get_canvas_width, get_time, load_image
 from sdl2 import (SDL_KEYDOWN, SDL_KEYUP, SDLK_LEFT, SDLK_RIGHT,
                   SDLK_SPACE)
@@ -48,6 +50,13 @@ class Boy:
                 event.key == SDLK_SPACE and
                 self.state == 'SLEEP'):
             self.wake_up()
+            return
+
+        if (event.type == SDL_KEYDOWN and
+                event.key == SDLK_SPACE and
+                self.state in ('IDLE', 'RUN')):
+            ball = Ball(self.x + self.face_dir * 40, self.y, self.face_dir)
+            game_world.add_object(ball)
             return
 
         if (event.type not in (SDL_KEYDOWN, SDL_KEYUP) or
