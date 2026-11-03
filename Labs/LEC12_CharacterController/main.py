@@ -8,7 +8,7 @@ from boy import Boy
 # Game object class here
 
 def handle_events():
-    global running
+    global running, pressed_directions
 
     event_list = get_events()
     for event in event_list:
@@ -16,13 +16,32 @@ def handle_events():
             running = False
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
+            if boy.state == 'SLEEP':
+                boy.wake()
+        elif event.type == SDL_KEYDOWN and event.key in (SDLK_LEFT, SDLK_RIGHT):
+            if event.key not in pressed_directions:
+                pressed_directions.append(event.key)
+        elif event.type == SDL_KEYUP and event.key in (SDLK_LEFT, SDLK_RIGHT):
+            if event.key in pressed_directions:
+                pressed_directions.remove(event.key)
+
+    if pressed_directions:
+        direction = 1 if pressed_directions[-1] == SDLK_RIGHT else -1
+        if boy.state in ('IDLE', 'SLEEP'):
+            boy.start_run(direction=direction)
+        elif boy.state == 'RUN':
+            boy.set_direction(direction)
+    elif boy.state == 'RUN':
+        boy.stop_run()
 
 
 def reset_world():
-    global world
+    global world, pressed_directions
     global boy
 
     world = []
+    pressed_directions = []
 
     grass = Grass()
     world.append(grass)
